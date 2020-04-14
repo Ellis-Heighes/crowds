@@ -4,6 +4,7 @@ namespace App\Http\Middleware;
 
 use Closure;
 use Auth;
+use App\Providers\RouteServiceProvider;
 
 class PromptUserToCompleteSetup
 {
@@ -18,8 +19,8 @@ class PromptUserToCompleteSetup
     {
         info (json_encode($request->path()));
 
-        if (Auth::user()->setup_step < 4 && $request->path() != '/') {
-            return redirect('/');
+        if (Auth::user()->setup_step < 4 && $request->path() != RouteServiceProvider::HOME) {
+            return redirect(RouteServiceProvider::HOME);
         }
 
 

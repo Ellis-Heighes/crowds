@@ -21,7 +21,7 @@ Route::post('/facebook/login', 'FacebookLoginController@login');
 
 Route::middleware(['auth'])->group(function () {
 
-    Route::get('/', 'OrdersFeedController@index');
+    Route::get('/feed', 'OrdersFeedController@index');
 
     Route::post('/setup/step-one', 'UserController@completeSetupStepOne');
     Route::patch('/setup/step-two', 'UserController@completeSetupStepTwo'); // post because we also use it for Facebook login in non-auth pages
@@ -74,11 +74,13 @@ Route::middleware(['auth', 'setup.complete'])->group(function () {
     Route::post('/officer-account/request', 'OfficerAccountController@requestAccount');
 });
 
-Route::get('/', function () {
-    return view('welcome');
-});
+Route::middleware(['guest'])->group(function () {
+    Route::get('/', function () {
+        return view('welcome');
+    });
 
-Route::get('/get-started', function() {
-    return view('get-started');
+    Route::get('/get-started', function() {
+        return view('get-started');
+    });
 });
 
